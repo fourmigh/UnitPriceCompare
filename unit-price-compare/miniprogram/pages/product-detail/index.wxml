@@ -1,0 +1,35 @@
+<view class="page">
+  <view wx:if="{{loading}}" class="loading">{{_t.common.loading}}</view>
+
+  <block wx:else>
+    <view class="product-header">
+      <text class="brand">{{product.brand}}</text>
+      <text class="name">{{product.productName}}</text>
+    </view>
+
+    <view class="spec-list">
+      <view class="spec-card" wx:for="{{specs}}" wx:key="_id">
+        <view class="spec-title">{{item.spec}}</view>
+
+        <view class="price-row price-header">
+          <text class="col platform">{{_t.detail.platform}}</text>
+          <text class="col shop">{{_t.detail.shop}}</text>
+          <text class="col price">{{_t.detail.price}}</text>
+          <text class="col unit-price">{{_t.detail.unitPrice}}</text>
+        </view>
+
+        <view
+          class="price-row"
+          wx:for="{{item.prices}}"
+          wx:for-item="price"
+          wx:key="_id"
+        >
+          <text class="col platform">{{price.platform}}</text>
+          <text class="col shop">{{price.shopName}}</text>
+          <text class="col price">¥{{price.price}}</text>
+          <text class="col unit-price highlight">¥{{price.unitPriceText}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

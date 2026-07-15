@@ -1,29 +1,31 @@
-<!--index.wxml-->
-<view class="container">
-  <view class="title">快速了解云开发</view>
-  <view class="top_tip">免鉴权接口调用 免部署后台 高并发</view>
-  <view class="power" wx:key="title" wx:for="{{powerList}}" wx:for-item="power">
-    <view class="power_info" data-index="{{index}}" data-type="{{ power.type }}" bindtap="onClickPowerInfo">
-      <view class="power_info_text">
-        <view class="power_info_text_title">
-          {{power.title}}
-          <view class="power_info_text_tag" wx:if="{{power.tag}}">{{power.tag}}</view>
-        </view>
-        <view class="power_info_text_tip">{{power.tip}}</view>
-      </view>
-      <image wx:if="{{!power.showItem && power.item.length}}" class="power_info_more" src="../../images/arrow.svg"></image>
-      <image wx:if="{{power.showItem && power.item.length}}" class="power_info_less" src="../../images/arrow.svg"></image>
-      <image wx:if="{{!power.item.length}}" class="power_item_icon" src="../../images/arrow.svg"></image>
-    </view>
-    <view wx:if="{{power.showItem}}">
-      <view wx:key="title" wx:for="{{power.item}}">
-        <view class="line"></view>
-        <view class="power_item" bindtap="jumpPage" data-type="{{ item.type }}" data-page="{{item.page}}">
-          <view class="power_item_title">{{item.title}}</view>
-          <image class="power_item_icon" src="../../images/arrow.svg"></image>
-        </view>
+<view class="page">
+  <view class="header">
+    <text class="title">{{_t.app.title}}</text>
+    <button class="add-btn" bindtap="goToAdd">{{_t.index.add}}</button>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">
+    <text>{{_t.common.loading}}</text>
+  </view>
+
+  <view wx:elif="{{products.length === 0}}" class="empty">
+    <image src="/images/default-goods-image.png" mode="widthFix" class="empty-img" />
+    <text class="empty-text">{{_t.index.empty}}</text>
+    <button class="empty-btn" bindtap="goToAdd">{{_t.index.emptyBtn}}</button>
+  </view>
+
+  <view wx:else class="list">
+    <view
+      class="card"
+      wx:for="{{products}}"
+      wx:key="_id"
+      data-id="{{item._id}}"
+      bindtap="goToDetail"
+    >
+      <view class="card-body">
+        <text class="card-brand">{{item.brand}}</text>
+        <text class="card-name">{{item.productName}}</text>
       </view>
     </view>
   </view>
-  <cloud-tip-modal showTipProps="{{showTip}}" title="{{title}}" content="{{content}}"></cloud-tip-modal>
 </view>

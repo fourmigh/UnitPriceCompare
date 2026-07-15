@@ -1,0 +1,55 @@
+<view class="form">
+  <view class="section">
+    <text class="label">{{_t.add.brand}}</text>
+    <input class="input" placeholder="{{_t.add.brandPlaceholder}}" bindinput="onBrandInput" />
+  </view>
+  <view class="section">
+    <text class="label">{{_t.add.productName}}</text>
+    <input class="input" placeholder="{{_t.add.productNamePlaceholder}}" bindinput="onProductNameInput" />
+  </view>
+
+  <view class="divider" />
+
+  <view class="section">
+    <text class="label">{{_t.add.platform}}</text>
+    <picker mode="selector" range="{{platforms}}" bindchange="onPlatformChange">
+      <view class="picker">{{platforms[platformIndex]}}</view>
+    </picker>
+  </view>
+  <view class="section">
+    <text class="label">{{_t.add.shopName}}</text>
+    <input class="input" placeholder="{{_t.add.shopNamePlaceholder}}" bindinput="onShopNameInput" />
+  </view>
+
+  <view class="divider" />
+
+  <view class="section">
+    <text class="label">{{_t.add.specValue}}</text>
+    <input class="input" type="number" placeholder="{{_t.add.specValuePlaceholder}}" bindinput="onSpecValueInput" />
+  </view>
+  <view class="section">
+    <text class="label">{{_t.add.specUnit}}</text>
+    <picker mode="selector" range="{{specUnits}}" range-key="label" bindchange="onSpecUnitChange">
+      <view class="picker">{{specUnits[specUnitIndex].label}}</view>
+    </picker>
+  </view>
+  <view class="section">
+    <text class="label">{{_t.add.spec}}</text>
+    <input class="input" placeholder="{{_t.add.specPlaceholder}}" value="{{specValue}}{{specUnits[specUnitIndex].value}}" bindinput="onSpecChange" />
+  </view>
+
+  <view class="divider" />
+
+  <view class="section">
+    <text class="label">{{_t.add.price}}</text>
+    <input class="input" type="digit" placeholder="{{_t.add.pricePlaceholder}}" bindinput="onPriceInput" />
+  </view>
+
+  <view wx:if="{{unitPriceText}}" class="preview">
+    <text class="preview-text">{{unitPriceText}}</text>
+  </view>
+
+  <button class="submit-btn" bindtap="onSubmit" loading="{{saving}}" disabled="{{saving}}">
+    {{_t.add.save}}
+  </button>
+</view>
