@@ -1,1 +1,5 @@
-{}
+{
+  "usingComponents": {
+    "page-layout": "/components/page-layout/index"
+  }
+}

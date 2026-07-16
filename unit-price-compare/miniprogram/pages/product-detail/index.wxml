@@ -1,4 +1,4 @@
-<view class="page">
+<page-layout bar-text="{{_t.detail.addRecord}}" bar-disabled="{{false}}" bindbartap="goToAddRecord">
   <view wx:if="{{loading}}" class="loading">{{_t.common.loading}}</view>
 
   <block wx:else>
@@ -12,6 +12,7 @@
         <view class="spec-title">{{item.spec}}</view>
 
         <view class="price-row price-header">
+          <text class="col rank">{{_t.detail.rank}}</text>
           <text class="col platform">{{_t.detail.platform}}</text>
           <text class="col shop">{{_t.detail.shop}}</text>
           <text class="col price">{{_t.detail.price}}</text>
@@ -19,17 +20,32 @@
         </view>
 
         <view
-          class="price-row"
+          class="price-row {{price.rank === 1 ? 'top-rank' : ''}}"
           wx:for="{{item.prices}}"
           wx:for-item="price"
           wx:key="_id"
         >
-          <text class="col platform">{{price.platform}}</text>
+          <text class="col rank"><text class="rank-badge {{price.rank === 1 ? 'gold' : ''}}">{{price.rank}}</text></text>
+          <text class="col platform"><text class="tag {{price.platformCategory}}">{{price.categoryLabel}}</text>{{price.platform}}</text>
           <text class="col shop">{{price.shopName}}</text>
           <text class="col price">¥{{price.price}}</text>
           <text class="col unit-price highlight">¥{{price.unitPriceText}}</text>
         </view>
+
+        <view
+          wx:if="{{item.pieceCount}}"
+          class="per-piece-row"
+          wx:for="{{item.prices}}"
+          wx:for-item="price"
+          wx:key="_id"
+        >
+          <text class="col rank"></text>
+          <text class="col platform"></text>
+          <text class="col shop"></text>
+          <text class="col price"></text>
+          <text class="col unit-price per-piece-text">≈¥{{price.perPieceText}}/{{price.pieceUnit}}</text>
+        </view>
       </view>
     </view>
   </block>
-</view>
+</page-layout>

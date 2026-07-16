@@ -2,7 +2,7 @@ const { t } = require("./shared/i18n/index");
 
 App({
   globalData: {
-    env: "",
+    env: "cloud1-9gfoqx5va6f33a45",
   },
   onLaunch() {
     if (!wx.cloud) {

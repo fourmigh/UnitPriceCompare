@@ -1,0 +1,33 @@
+.page-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bottom-bar {
+  padding: 20rpx 30rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background: #f6f6f6;
+  border-top: 2rpx solid #eee;
+}
+
+.bottom-btn {
+  width: 100%;
+  background: #3964fe;
+  color: #fff;
+  font-size: 30rpx;
+  border-radius: 40rpx;
+  line-height: 1.5;
+}
+
+.bottom-btn[disabled] {
+  background: #ccc;
+  color: #999;
+}

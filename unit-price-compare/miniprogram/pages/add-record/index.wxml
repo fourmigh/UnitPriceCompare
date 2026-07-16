@@ -1,55 +1,110 @@
-<view class="form">
-  <view class="section">
-    <text class="label">{{_t.add.brand}}</text>
-    <input class="input" placeholder="{{_t.add.brandPlaceholder}}" bindinput="onBrandInput" />
-  </view>
-  <view class="section">
-    <text class="label">{{_t.add.productName}}</text>
-    <input class="input" placeholder="{{_t.add.productNamePlaceholder}}" bindinput="onProductNameInput" />
-  </view>
+<page-layout bar-text="{{_t.add.save}}" bar-disabled="{{!isFormValid || saving}}" bar-loading="{{saving}}" bindbartap="onSubmit">
+  <!-- 品牌 -->
+  <block wx:if="{{isQuickAdd}}">
+    <view class="section required readonly">
+      <text class="label">{{_t.add.brand}}</text>
+      <text class="readonly-text">{{brand}}</text>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="section required">
+      <text class="label">{{_t.add.brand}}</text>
+      <input class="input" placeholder="{{_t.add.brandPlaceholder}}" bindinput="onBrandInput" />
+    </view>
+  </block>
+
+  <!-- 商品名 -->
+  <block wx:if="{{isQuickAdd}}">
+    <view class="section required readonly">
+      <text class="label">{{_t.add.productName}}</text>
+      <text class="readonly-text">{{productName}}</text>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="section required">
+      <text class="label">{{_t.add.productName}}</text>
+      <input class="input" placeholder="{{_t.add.productNamePlaceholder}}" bindinput="onProductNameInput" />
+    </view>
+  </block>
 
   <view class="divider" />
 
+  <!-- 渠道类型 / 平台 / 店铺 -->
+  <view class="section">
+    <text class="label">{{_t.add.platformCategory}}</text>
+    <picker mode="selector" range="{{platformCategories}}" range-key="label" bindchange="onCategoryChange">
+      <view class="picker">{{platformCategories[categoryIndex].label}}</view>
+    </picker>
+  </view>
   <view class="section">
     <text class="label">{{_t.add.platform}}</text>
     <picker mode="selector" range="{{platforms}}" bindchange="onPlatformChange">
       <view class="picker">{{platforms[platformIndex]}}</view>
     </picker>
   </view>
-  <view class="section">
+  <view wx:if="{{showCustomPlatform}}" class="section required">
+    <text class="label">{{_t.add.customPlatform}}</text>
+      <input class="input" placeholder="{{_t.add.customPlatformPlaceholder}}" value="{{customPlatform}}" bindinput="onCustomPlatformInput" />
+  </view>
+  <view class="section required">
     <text class="label">{{_t.add.shopName}}</text>
-    <input class="input" placeholder="{{_t.add.shopNamePlaceholder}}" bindinput="onShopNameInput" />
+      <input class="input" placeholder="{{_t.add.shopNamePlaceholder}}" value="{{shopName}}" bindinput="onShopNameInput" />
   </view>
 
   <view class="divider" />
 
-  <view class="section">
-    <text class="label">{{_t.add.specValue}}</text>
-    <input class="input" type="number" placeholder="{{_t.add.specValuePlaceholder}}" bindinput="onSpecValueInput" />
+  <!-- 规格 -->
+  <block wx:if="{{isQuickAdd}}">
+    <view class="section">
+      <text class="label">{{_t.quickAdd.selectSpec}}</text>
+      <picker mode="selector" range="{{specOptions}}" range-key="label" bindchange="onSpecSelectChange">
+        <view class="picker">{{specOptions[specSelectIndex].label}}</view>
+      </picker>
+    </view>
+  </block>
+
+  <block wx:if="{{!isQuickAdd || specOptions[specSelectIndex].isNew}}">
+    <view class="section required">
+      <text class="label">{{_t.add.specValue}}</text>
+      <input class="input" type="number" placeholder="{{_t.add.specValuePlaceholder}}" value="{{specValue}}" bindinput="onSpecValueInput" />
+    </view>
+    <view class="section">
+      <text class="label">{{_t.add.specUnit}}</text>
+      <picker mode="selector" range="{{specUnits}}" range-key="label" bindchange="onSpecUnitChange">
+        <view class="picker">{{specUnits[specUnitIndex].label}}</view>
+      </picker>
+    </view>
+    <view class="section required">
+      <text class="label">{{_t.add.spec}}</text>
+      <input class="input" placeholder="{{_t.add.specPlaceholder}}" value="{{specValue}}{{specUnits[specUnitIndex].value}}" bindinput="onSpecChange" />
+    </view>
+  </block>
+
+  <view class="divider" />
+
+  <!-- 件数量（可选） -->
+  <view class="section optional">
+    <text class="label optional-label">{{_t.add.pieceCount}}</text>
+    <input class="input" type="number" placeholder="{{_t.add.pieceCountPlaceholder}}" value="{{pieceCount}}" bindinput="onPieceCountInput" />
   </view>
-  <view class="section">
-    <text class="label">{{_t.add.specUnit}}</text>
-    <picker mode="selector" range="{{specUnits}}" range-key="label" bindchange="onSpecUnitChange">
-      <view class="picker">{{specUnits[specUnitIndex].label}}</view>
+  <view class="section optional">
+    <text class="label optional-label">{{_t.add.pieceUnit}}</text>
+    <picker mode="selector" range="{{pieceUnits}}" bindchange="onPieceUnitChange">
+      <view class="picker">{{pieceUnits[pieceUnitIndex]}}</view>
     </picker>
   </view>
-  <view class="section">
-    <text class="label">{{_t.add.spec}}</text>
-    <input class="input" placeholder="{{_t.add.specPlaceholder}}" value="{{specValue}}{{specUnits[specUnitIndex].value}}" bindinput="onSpecChange" />
-  </view>
 
   <view class="divider" />
 
-  <view class="section">
+  <!-- 价格 -->
+  <view class="section required">
     <text class="label">{{_t.add.price}}</text>
     <input class="input" type="digit" placeholder="{{_t.add.pricePlaceholder}}" bindinput="onPriceInput" />
   </view>
 
+  <!-- 预览 -->
   <view wx:if="{{unitPriceText}}" class="preview">
     <text class="preview-text">{{unitPriceText}}</text>
+    <text wx:if="{{perPieceText}}" class="preview-text per-piece">{{perPieceText}}</text>
   </view>
-
-  <button class="submit-btn" bindtap="onSubmit" loading="{{saving}}" disabled="{{saving}}">
-    {{_t.add.save}}
-  </button>
-</view>
+</page-layout>

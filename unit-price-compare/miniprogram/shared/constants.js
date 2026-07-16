@@ -1,18 +1,12 @@
-const PLATFORMS = [
-  "淘宝",
-  "京东",
-  "拼多多",
-  "抖音",
-  "快手",
-  "山姆",
-  "盒马",
-  "Costco",
-  "大润发",
-  "永辉",
-  "沃尔玛",
-  "线下商超",
-  "其他",
+const PLATFORM_CATEGORIES = [
+  { key: "online", label: "线上" },
+  { key: "offline", label: "线下" },
 ];
+
+const PLATFORMS = {
+  online: ["淘宝", "京东", "拼多多", "抖音", "快手", "其他"],
+  offline: ["山姆", "盒马", "Costco", "大润发", "永辉", "沃尔玛", "其他"],
+};
 
 const SPEC_UNITS = [
   { label: "克 (g)", value: "g" },
@@ -27,6 +21,8 @@ const SPEC_UNITS = [
   { label: "斤", value: "斤" },
 ];
 
+const PIECE_UNITS = ["瓶", "包", "罐", "盒", "袋", "个", "支"];
+
 function calcUnitPrice(price, specValue, specUnit) {
   if (!price || !specValue) return 0;
   return price / specValue;
@@ -40,8 +36,10 @@ function formatUnitPrice(unitPrice) {
 }
 
 module.exports = {
+  PLATFORM_CATEGORIES,
   PLATFORMS,
   SPEC_UNITS,
+  PIECE_UNITS,
   calcUnitPrice,
   formatUnitPrice,
 };

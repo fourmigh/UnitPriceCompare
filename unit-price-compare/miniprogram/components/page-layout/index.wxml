@@ -1,0 +1,8 @@
+<view class="page-wrap">
+  <view class="scroll-area">
+    <slot />
+  </view>
+  <view class="bottom-bar">
+    <button class="bottom-btn" disabled="{{barDisabled}}" loading="{{barLoading}}" bindtap="onBarTap">{{barText}}</button>
+  </view>
+</view>

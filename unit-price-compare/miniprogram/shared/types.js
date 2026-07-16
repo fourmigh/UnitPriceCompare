@@ -14,9 +14,12 @@
  * @typedef {Object} Spec
  * @property {string} _id
  * @property {string} productId - 关联 products._id
- * @property {string} spec - 如"550ml"
+ * @property {string} spec - 如 "550ml" 或 "550ml×12瓶"
  * @property {string} specUnit - 单位 g / ml / 个 / 包
- * @property {number} specValue - 数值 550
+ * @property {number} specValue - 总量（单件=单件值，多件=单件×件数）
+ * @property {number} [pieceCount] - 件数（可选，如12瓶）
+ * @property {string} [pieceUnit] - 件单位（可选，如"瓶"）
+ * @property {number} [pieceSpecValue] - 每件含量（可选，如550）
  * @property {Date} createTime
  */
 
@@ -25,6 +28,7 @@
  * @typedef {Object} Price
  * @property {string} _id
  * @property {string} specId - 关联 specs._id
+ * @property {string} platformCategory - "online" | "offline"
  * @property {string} platform - 平台，如"京东"
  * @property {string} shopName - 店铺名
  * @property {number} price - 总价

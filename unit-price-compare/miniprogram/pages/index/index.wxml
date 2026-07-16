@@ -1,7 +1,6 @@
-<view class="page">
+<page-layout bar-text="{{_t.index.addBtn}}" bar-disabled="{{false}}" bindbartap="goToAdd">
   <view class="header">
     <text class="title">{{_t.app.title}}</text>
-    <button class="add-btn" bindtap="goToAdd">{{_t.index.add}}</button>
   </view>
 
   <view wx:if="{{loading}}" class="loading">
@@ -11,7 +10,6 @@
   <view wx:elif="{{products.length === 0}}" class="empty">
     <image src="/images/default-goods-image.png" mode="widthFix" class="empty-img" />
     <text class="empty-text">{{_t.index.empty}}</text>
-    <button class="empty-btn" bindtap="goToAdd">{{_t.index.emptyBtn}}</button>
   </view>
 
   <view wx:else class="list">
@@ -28,4 +26,4 @@
       </view>
     </view>
   </view>
-</view>
+</page-layout>

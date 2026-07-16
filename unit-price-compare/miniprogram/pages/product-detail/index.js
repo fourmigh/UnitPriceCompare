@@ -1,5 +1,5 @@
 const { t, getLocale } = require("../../shared/i18n/index");
-const { formatUnitPrice } = require("../../shared/constants");
+const { formatUnitPrice, PLATFORM_CATEGORIES } = require("../../shared/constants");
 
 Page({
   data: {
@@ -7,11 +7,17 @@ Page({
     product: null,
     specs: [],
     loading: true,
+    productId: "",
   },
   onLoad(options) {
     wx.setNavigationBarTitle({ title: t("detail.navTitle") });
-    const id = options.id;
-    if (id) this.loadDetail(id);
+    if (options.id) this.setData({ productId: options.id });
+  },
+  onShow() {
+    if (this.data.productId) this.loadDetail(this.data.productId);
+  },
+  goToAddRecord() {
+    wx.navigateTo({ url: `/pages/add-record/index?id=${this.data.productId}` });
   },
   async loadDetail(productId) {
     const db = wx.cloud.database();
@@ -23,19 +29,28 @@ Page({
         .get();
 
       const specs = [];
+      const allPrices = [];
       for (const spec of specRes.data) {
         const priceRes = await db.collection("prices")
           .where({ specId: spec._id })
           .orderBy("unitPrice", "asc")
           .get();
-        specs.push({
-          ...spec,
-          prices: priceRes.data.map((p) => ({
-            ...p,
-            unitPriceText: formatUnitPrice(p.unitPrice),
-          })),
+        const prices = priceRes.data.map((p) => {
+          const cat = PLATFORM_CATEGORIES.find(c => c.key === p.platformCategory);
+          const item = { ...p, unitPriceText: formatUnitPrice(p.unitPrice), categoryLabel: cat ? cat.label : "" };
+          if (spec.pieceCount) {
+            item.perPiece = p.price / spec.pieceCount;
+            item.perPieceText = formatUnitPrice(item.perPiece);
+            item.pieceUnit = spec.pieceUnit;
+          }
+          return item;
         });
+        specs.push({ ...spec, prices });
+        allPrices.push(...prices);
       }
+
+      allPrices.sort((a, b) => a.unitPrice - b.unitPrice);
+      allPrices.forEach((p, i) => { p.rank = i + 1; });
 
       this.setData({
         product: productRes.data,
