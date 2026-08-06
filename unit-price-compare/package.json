@@ -1,0 +1,8 @@
+{
+  "name": "unit-price-compare",
+  "version": "1.0.0",
+  "description": "单价比价微信小程序",
+  "dependencies": {
+    "weui-miniprogram": "^1.2.4"
+  }
+}

@@ -19,6 +19,58 @@ Page({
   goToAddRecord() {
     wx.navigateTo({ url: `/pages/add-record/index?id=${this.data.productId}` });
   },
+  noop() {},
+  onDeleteSpec(e) {
+    const { id, spec } = e.detail.data;
+    wx.showModal({
+      title: t("detail.deleteSpec"),
+      content: t("detail.deleteSpecConfirm", { spec }),
+      confirmText: t("detail.deleteSpec"),
+      confirmColor: "#e53935",
+      success: (res) => {
+        if (res.confirm) this.deleteSpec(id);
+      },
+    });
+  },
+  onDeletePrice(e) {
+    const { id } = e.detail.data;
+    wx.showModal({
+      title: t("detail.deletePrice"),
+      content: t("detail.deletePriceConfirm"),
+      confirmText: t("detail.deletePrice"),
+      confirmColor: "#e53935",
+      success: (res) => {
+        if (res.confirm) this.deletePrice(id);
+      },
+    });
+  },
+  async deleteSpec(specId) {
+    const db = wx.cloud.database();
+    try {
+      await db.collection("prices").where({ specId }).remove();
+      await db.collection("specs").doc(specId).remove();
+      wx.showToast({ title: t("detail.deleted") });
+      this.loadDetail(this.data.productId);
+    } catch (e) {
+      wx.showToast({ title: t("detail.fail"), icon: "none" });
+    }
+  },
+  async deletePrice(priceId) {
+    const db = wx.cloud.database();
+    try {
+      const priceRes = await db.collection("prices").doc(priceId).get();
+      const specId = priceRes.data.specId;
+      await db.collection("prices").doc(priceId).remove();
+      const remainRes = await db.collection("prices").where({ specId }).count();
+      if (remainRes.total === 0) {
+        await db.collection("specs").doc(specId).remove();
+      }
+      wx.showToast({ title: t("detail.deleted") });
+      this.loadDetail(this.data.productId);
+    } catch (e) {
+      wx.showToast({ title: t("detail.fail"), icon: "none" });
+    }
+  },
   async loadDetail(productId) {
     const db = wx.cloud.database();
     try {
@@ -37,7 +89,16 @@ Page({
           .get();
         const prices = priceRes.data.map((p) => {
           const cat = PLATFORM_CATEGORIES.find(c => c.key === p.platformCategory);
-          const item = { ...p, unitPriceText: formatUnitPrice(p.unitPrice), categoryLabel: cat ? cat.label : "" };
+          const item = {
+            ...p,
+            unitPriceText: formatUnitPrice(p.unitPrice),
+            categoryLabel: cat ? cat.label : "",
+            priceBtns: [{
+              text: t("detail.deletePrice"),
+              type: "warn",
+              data: { id: p._id },
+            }],
+          };
           if (spec.pieceCount) {
             item.perPiece = p.price / spec.pieceCount;
             item.perPieceText = formatUnitPrice(item.perPiece);
@@ -45,7 +106,15 @@ Page({
           }
           return item;
         });
-        specs.push({ ...spec, prices });
+        specs.push({
+          ...spec,
+          prices,
+          specBtns: [{
+            text: t("detail.deleteSpec"),
+            type: "warn",
+            data: { id: spec._id, spec: spec.spec },
+          }],
+        });
         allPrices.push(...prices);
       }
 

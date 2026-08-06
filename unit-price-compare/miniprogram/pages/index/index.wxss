@@ -28,11 +28,27 @@
   opacity: 0.4;
 }
 
+.list {
+  margin-top: 4rpx;
+}
+
+.hint {
+  display: block;
+  font-size: var(--font-sm);
+  color: var(--color-text-faint);
+  margin-bottom: var(--space-base);
+}
+
+.card-slide {
+  margin-bottom: var(--space-base);
+}
+
 .card {
   background: var(--color-bg-card);
   border-radius: var(--radius-card);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
   padding: var(--space-xl);
-  margin-bottom: var(--space-base);
   box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
 }
 
