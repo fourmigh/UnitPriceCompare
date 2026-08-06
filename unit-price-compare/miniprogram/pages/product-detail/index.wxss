@@ -1,70 +1,70 @@
 .loading {
   text-align: center;
   padding-top: 200rpx;
-  color: #999;
-  font-size: 28rpx;
+  color: var(--color-text-muted);
+  font-size: var(--font-lg);
 }
 
 .product-header {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 30rpx;
+  padding: var(--space-base);
   position: relative;
 }
 
 .brand {
-  font-size: 26rpx;
-  color: #888;
+  font-size: var(--font-base);
+  color: var(--color-text-tertiary);
   display: block;
 }
 
 .name {
-  font-size: 40rpx;
+  font-size: var(--font-display);
   font-weight: 600;
-  color: #1d1d1f;
+  color: var(--color-text-primary);
 }
 
 .spec-card {
-  background: #fff;
-  border-radius: 16rpx;
-  padding: 24rpx;
-  margin-bottom: 20rpx;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-card);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-base);
   box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
 }
 
 .spec-title {
-  font-size: 30rpx;
+  font-size: var(--font-xl);
   font-weight: 500;
-  color: #1d1d1f;
-  margin-bottom: 16rpx;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-md);
 }
 
 .price-row {
   display: flex;
   align-items: center;
-  padding: 14rpx 0;
-  font-size: 26rpx;
+  padding: var(--space-md) 0;
+  font-size: var(--font-base);
 }
 
 .price-row.top-rank {
-  background: #fffde7;
-  border-radius: 8rpx;
+  background: var(--color-top-bg);
+  border-radius: var(--radius-sm);
   margin: 0 -16rpx;
-  padding: 14rpx 16rpx;
-  border: 2rpx solid #ffe082;
+  padding: var(--space-md) 16rpx;
+  border: 2rpx solid var(--color-top-border);
 }
 
 .price-header {
-  color: #999;
-  border-bottom: 2rpx solid #f0f0f0;
+  color: var(--color-text-muted);
+  border-bottom: 2rpx solid var(--color-border-light);
 }
 
 .per-piece-row {
   display: flex;
   align-items: center;
-  padding: 0 0 14rpx 0;
-  font-size: 22rpx;
+  padding: 0 0 var(--space-md) 0;
+  font-size: var(--font-sm);
   margin-top: -6rpx;
 }
 
@@ -75,14 +75,14 @@
   width: 36rpx;
   height: 36rpx;
   border-radius: 50%;
-  background: #e0e0e0;
-  color: #666;
-  font-size: 20rpx;
+  background: var(--color-rank-bg);
+  color: var(--color-text-secondary);
+  font-size: var(--font-xs);
   font-weight: 600;
 }
 
 .rank-badge.gold {
-  background: #ffc107;
+  background: var(--color-rank-gold);
   color: #fff;
 }
 
@@ -97,29 +97,29 @@
 .unit-price { flex: 1; text-align: right; }
 
 .highlight {
-  color: #3964fe;
+  color: var(--color-primary);
   font-weight: 500;
 }
 
 .per-piece-text {
-  color: #999;
+  color: var(--color-text-muted);
 }
 
 .tag {
   display: inline-block;
-  font-size: 20rpx;
+  font-size: var(--font-xs);
   padding: 2rpx 8rpx;
-  border-radius: 4rpx;
-  margin-right: 6rpx;
+  border-radius: var(--radius-tag);
+  margin-right: var(--space-xs);
   vertical-align: middle;
 }
 
 .tag.online {
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: var(--color-tag-online-bg);
+  color: var(--color-tag-online-text);
 }
 
 .tag.offline {
-  background: #fff3e0;
-  color: #e65100;
+  background: var(--color-tag-offline-bg);
+  color: var(--color-tag-offline-text);
 }

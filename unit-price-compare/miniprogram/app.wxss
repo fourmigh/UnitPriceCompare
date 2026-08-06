@@ -1,4 +1,6 @@
+@import "shared/theme.wxss";
+
 page {
-  background: #f6f6f6;
+  background: var(--color-bg-page);
   box-sizing: border-box;
 }

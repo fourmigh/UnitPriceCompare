@@ -1,79 +1,77 @@
 .section {
-  margin-bottom: 24rpx;
+  margin-bottom: var(--space-lg);
 }
 
 .optional {
-  padding-left: 20rpx;
-  border-left: 4rpx solid #e0e0e0;
+  padding-left: var(--space-base);
+  border-left: 4rpx solid var(--color-rank-bg);
 }
 
 .optional-label::after {
   content: "（可选）";
-  font-size: 22rpx;
-  color: #bbb;
-  margin-left: 8rpx;
+  font-size: var(--font-sm);
+  color: var(--color-text-faint);
+  margin-left: var(--space-sm);
 }
 
 .required .label::after {
   content: " *";
-  color: #e53935;
+  color: var(--color-danger);
 }
 
 .label {
   display: block;
-  font-size: 26rpx;
-  color: #666;
-  margin-bottom: 8rpx;
+  font-size: var(--font-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-sm);
 }
 
 .input {
-  background: #fff;
-  border-radius: 12rpx;
-  padding: 20rpx 24rpx;
-  font-size: 30rpx;
-  border: 2rpx solid #eee;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-field);
+  padding: var(--space-base) var(--space-lg);
+  font-size: var(--font-xl);
+  border: 2rpx solid var(--color-border);
 }
 
 .readonly-text {
-  background: #f5f5f5;
-  border-radius: 12rpx;
-  padding: 20rpx 24rpx;
-  font-size: 30rpx;
-  color: #1d1d1f;
+  background: var(--color-bg-input);
+  border-radius: var(--radius-field);
+  padding: var(--space-base) var(--space-lg);
+  font-size: var(--font-xl);
+  color: var(--color-text-primary);
   display: block;
 }
 
 .picker {
-  background: #fff;
-  border-radius: 12rpx;
-  padding: 20rpx 24rpx;
-  font-size: 30rpx;
-  border: 2rpx solid #eee;
-  color: #1d1d1f;
+  background: var(--color-bg-card);
+  border-radius: var(--radius-field);
+  padding: var(--space-base) var(--space-lg);
+  font-size: var(--font-xl);
+  border: 2rpx solid var(--color-border);
+  color: var(--color-text-primary);
 }
 
 .divider {
   height: 2rpx;
-  background: #e8e8e8;
-  margin: 30rpx 0;
+  background: var(--color-divider);
+  margin: var(--space-xl) 0;
 }
 
 .preview {
-  background: #f0f5ff;
-  border-radius: 12rpx;
-  padding: 20rpx;
-  margin-bottom: 30rpx;
+  background: var(--color-primary-light);
+  border-radius: var(--radius-field);
+  padding: var(--space-base);
+  margin-bottom: var(--space-xl);
 }
 
 .preview-text {
-  font-size: 28rpx;
-  color: #3964fe;
+  font-size: var(--font-lg);
+  color: var(--color-primary);
   display: block;
 }
 
 .per-piece {
-  margin-top: 8rpx;
+  margin-top: var(--space-sm);
   opacity: 0.8;
 }
-
-

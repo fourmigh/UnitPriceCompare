@@ -1,3 +1,5 @@
+@import "../../shared/theme.wxss";
+
 .page-wrap {
   display: flex;
   flex-direction: column;
@@ -9,25 +11,26 @@
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  padding: var(--space-lg) var(--space-xl);
 }
 
 .bottom-bar {
-  padding: 20rpx 30rpx;
-  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
-  background: #f6f6f6;
-  border-top: 2rpx solid #eee;
+  padding: var(--space-base) var(--space-xl);
+  padding-bottom: calc(var(--space-base) + env(safe-area-inset-bottom));
+  background: var(--color-bg-page);
+  border-top: 2rpx solid var(--color-border);
 }
 
 .bottom-btn {
   width: 100%;
-  background: #3964fe;
+  background: var(--color-primary);
   color: #fff;
-  font-size: 30rpx;
-  border-radius: 40rpx;
+  font-size: var(--font-xl);
+  border-radius: var(--radius-btn);
   line-height: 1.5;
 }
 
 .bottom-btn[disabled] {
-  background: #ccc;
-  color: #999;
+  background: var(--color-disabled);
+  color: var(--color-text-muted);
 }

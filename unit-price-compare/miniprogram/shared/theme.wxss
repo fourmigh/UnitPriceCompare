@@ -1,0 +1,52 @@
+page {
+  /* 颜色 */
+  --color-primary: #3964fe;
+  --color-primary-light: #f0f5ff;
+  --color-bg-page: #f6f6f6;
+  --color-bg-card: #fff;
+  --color-bg-input: #f5f5f5;
+  --color-text-primary: #1d1d1f;
+  --color-text-secondary: #666;
+  --color-text-tertiary: #888;
+  --color-text-muted: #999;
+  --color-text-faint: #bbb;
+  --color-border: #eee;
+  --color-border-light: #f0f0f0;
+  --color-divider: #e8e8e8;
+  --color-danger: #e53935;
+  --color-disabled: #ccc;
+  --color-rank-bg: #e0e0e0;
+  --color-rank-gold: #ffc107;
+  --color-top-bg: #fffde7;
+  --color-top-border: #ffe082;
+  --color-tag-online-bg: #e8f5e9;
+  --color-tag-online-text: #2e7d32;
+  --color-tag-offline-bg: #fff3e0;
+  --color-tag-offline-text: #e65100;
+
+  /* 圆角 */
+  --radius-card: 16rpx;
+  --radius-field: 12rpx;
+  --radius-sm: 8rpx;
+  --radius-tag: 4rpx;
+  --radius-btn: 40rpx;
+
+  /* 间距 */
+  --space-xs: 6rpx;
+  --space-sm: 8rpx;
+  --space-md: 14rpx;
+  --space-base: 20rpx;
+  --space-lg: 24rpx;
+  --space-xl: 30rpx;
+
+  /* 字号 */
+  --font-xs: 20rpx;
+  --font-sm: 22rpx;
+  --font-md: 24rpx;
+  --font-base: 26rpx;
+  --font-lg: 28rpx;
+  --font-xl: 30rpx;
+  --font-2xl: 32rpx;
+  --font-display: 40rpx;
+  --font-title: 44rpx;
+}
