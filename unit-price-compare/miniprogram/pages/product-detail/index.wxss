@@ -32,16 +32,12 @@
   margin-bottom: var(--space-base);
 }
 
-.spec-slide {
-  margin-bottom: var(--space-base);
-}
-
 .spec-card {
+  position: relative;
   background: var(--color-bg-card);
   border-radius: var(--radius-card);
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
   padding: var(--space-lg);
+  margin-bottom: var(--space-base);
   box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.04);
 }
 
@@ -62,8 +58,6 @@
 .price-row.top-rank {
   background: var(--color-top-bg);
   border-radius: var(--radius-sm);
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
   padding: var(--space-md) 16rpx;
   border: 2rpx solid var(--color-top-border);
   box-sizing: border-box;

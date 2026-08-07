@@ -10,57 +10,46 @@
     <text class="hint">{{_t.detail.hint}}</text>
 
     <view class="spec-list">
-      <mp-slideview
-        class="spec-slide"
-        wx:for="{{specs}}"
-        wx:key="_id"
-        buttons="{{item.specBtns}}"
-        bindbuttontap="onDeleteSpec"
-      >
-        <view class="spec-card">
-          <view class="spec-title">{{item.spec}}</view>
+      <view class="spec-card" wx:for="{{specs}}" wx:key="_id">
+        <view class="spec-title">{{item.spec}}</view>
 
-          <view class="price-row price-header">
-            <text class="col rank">{{_t.detail.rank}}</text>
-            <text class="col platform">{{_t.detail.platform}}</text>
-            <text class="col shop">{{_t.detail.shop}}</text>
-            <text class="col price">{{_t.detail.price}}</text>
-            <text class="col unit-price">{{_t.detail.unitPrice}}</text>
-          </view>
-
-          <view class="price-zone" catchtouchstart="noop">
-            <mp-slideview
-              wx:for="{{item.prices}}"
-              wx:for-item="price"
-              wx:key="_id"
-              buttons="{{price.priceBtns}}"
-              bindbuttontap="onDeletePrice"
-            >
-              <view class="price-row {{price.rank === 1 ? 'top-rank' : ''}}">
-                <text class="col rank"><text class="rank-badge {{price.rank === 1 ? 'gold' : ''}}">{{price.rank}}</text></text>
-                <text class="col platform"><text class="tag {{price.platformCategory}}">{{price.categoryLabel}}</text>{{price.platform}}</text>
-                <text class="col shop">{{price.shopName}}</text>
-                <text class="col price">¥{{price.price}}</text>
-                <text class="col unit-price highlight">¥{{price.unitPriceText}}</text>
-              </view>
-            </mp-slideview>
-
-            <view
-              wx:if="{{item.pieceCount}}"
-              class="per-piece-row"
-              wx:for="{{item.prices}}"
-              wx:for-item="price"
-              wx:key="_id"
-            >
-              <text class="col rank"></text>
-              <text class="col platform"></text>
-              <text class="col shop"></text>
-              <text class="col price"></text>
-              <text class="col unit-price per-piece-text">≈¥{{price.perPieceText}}/{{price.pieceUnit}}</text>
-            </view>
-          </view>
+        <view class="price-row price-header">
+          <text class="col rank">{{_t.detail.rank}}</text>
+          <text class="col platform">{{_t.detail.platform}}</text>
+          <text class="col shop">{{_t.detail.shop}}</text>
+          <text class="col price">{{_t.detail.price}}</text>
+          <text class="col unit-price">{{_t.detail.unitPrice}}</text>
         </view>
-      </mp-slideview>
+
+        <view
+          wx:for="{{item.prices}}"
+          wx:for-item="price"
+          wx:key="_id"
+          class="price-row {{price.rank === 1 ? 'top-rank' : ''}}"
+          data-id="{{price._id}}"
+          bindtap="onPriceTap"
+        >
+          <text class="col rank"><text class="rank-badge {{price.rank === 1 ? 'gold' : ''}}">{{price.rank}}</text></text>
+          <text class="col platform"><text class="tag {{price.platformCategory}}">{{price.categoryLabel}}</text>{{price.platform}}</text>
+          <text class="col shop">{{price.shopName}}</text>
+          <text class="col price">¥{{price.price}}</text>
+          <text class="col unit-price highlight">¥{{price.unitPriceText}}</text>
+        </view>
+
+        <view
+          wx:if="{{item.pieceCount}}"
+          class="per-piece-row"
+          wx:for="{{item.prices}}"
+          wx:for-item="price"
+          wx:key="_id"
+        >
+          <text class="col rank"></text>
+          <text class="col platform"></text>
+          <text class="col shop"></text>
+          <text class="col price"></text>
+          <text class="col unit-price per-piece-text">≈¥{{price.perPieceText}}/{{price.pieceUnit}}</text>
+        </view>
+      </view>
     </view>
   </block>
 </page-layout>

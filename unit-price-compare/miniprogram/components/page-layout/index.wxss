@@ -15,6 +15,8 @@
 }
 
 .bottom-bar {
+  display: flex;
+  gap: var(--space-base);
   padding: var(--space-base) var(--space-xl);
   padding-bottom: calc(var(--space-base) + env(safe-area-inset-bottom));
   background: var(--color-bg-page);
@@ -22,7 +24,8 @@
 }
 
 .bottom-btn {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   background: var(--color-primary);
   color: #fff;
   font-size: var(--font-xl);
@@ -32,5 +35,18 @@
 
 .bottom-btn[disabled] {
   background: var(--color-disabled);
+  color: var(--color-text-muted);
+}
+
+.delete-btn {
+  background: transparent;
+  color: #e53935;
+  border: 2rpx solid #e53935;
+  box-sizing: border-box;
+}
+
+.delete-btn[disabled] {
+  background: transparent;
+  border-color: var(--color-disabled);
   color: var(--color-text-muted);
 }

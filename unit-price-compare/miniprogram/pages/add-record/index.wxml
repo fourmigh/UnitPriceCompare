@@ -1,4 +1,14 @@
-<page-layout bar-text="{{_t.add.save}}" bar-disabled="{{!isFormValid || saving}}" bar-loading="{{saving}}" bindbartap="onSubmit">
+<page-layout
+  bar-text="{{_t.add.save}}"
+  bar-disabled="{{!isFormValid || saving || deleting}}"
+  bar-loading="{{saving}}"
+  bindbartap="onSubmit"
+  delete-text="{{_t.add.delete}}"
+  delete-visible="{{isEdit}}"
+  delete-disabled="{{deleting}}"
+  delete-loading="{{deleting}}"
+  binddeletetap="onDeleteRecord"
+>
   <!-- 品牌 -->
   <block wx:if="{{isQuickAdd}}">
     <view class="section required readonly">
@@ -83,16 +93,18 @@
   <view class="divider" />
 
   <!-- 件数量（可选） -->
-  <view class="section optional">
-    <text class="label optional-label">{{_t.add.pieceCount}}</text>
-    <input class="input" type="number" placeholder="{{_t.add.pieceCountPlaceholder}}" value="{{pieceCount}}" bindinput="onPieceCountInput" />
-  </view>
-  <view class="section optional">
-    <text class="label optional-label">{{_t.add.pieceUnit}}</text>
-    <picker mode="selector" range="{{pieceUnits}}" bindchange="onPieceUnitChange">
-      <view class="picker">{{pieceUnits[pieceUnitIndex]}}</view>
-    </picker>
-  </view>
+  <block wx:if="{{!isEdit}}">
+    <view class="section optional">
+      <text class="label optional-label">{{_t.add.pieceCount}}</text>
+      <input class="input" type="number" placeholder="{{_t.add.pieceCountPlaceholder}}" value="{{pieceCount}}" bindinput="onPieceCountInput" />
+    </view>
+    <view class="section optional">
+      <text class="label optional-label">{{_t.add.pieceUnit}}</text>
+      <picker mode="selector" range="{{pieceUnits}}" bindchange="onPieceUnitChange">
+        <view class="picker">{{pieceUnits[pieceUnitIndex]}}</view>
+      </picker>
+    </view>
+  </block>
 
   <view class="divider" />
 

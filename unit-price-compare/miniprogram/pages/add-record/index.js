@@ -31,13 +31,67 @@ Page({
     showCustomPlatform: false,
     isFormValid: false,
     saving: false,
+    isEdit: false,
+    priceId: "",
+    deleting: false,
   },
   onLoad(options) {
-    if (options.id) {
+    if (options.priceId) {
+      this.loadPrice(options.priceId);
+    } else if (options.id) {
       this.loadProduct(options.id);
     } else {
       wx.setNavigationBarTitle({ title: t("add.navTitle") });
       this.checkFormValid();
+    }
+  },
+  async loadPrice(priceId) {
+    const db = wx.cloud.database();
+    try {
+      const priceRes = await db.collection("prices").doc(priceId).get();
+      const price = priceRes.data;
+      const specRes = await db.collection("specs").doc(price.specId).get();
+      const spec = specRes.data;
+      const productRes = await db.collection("products").doc(spec.productId).get();
+      const product = productRes.data;
+
+      wx.setNavigationBarTitle({ title: t("add.editNavTitle") });
+
+      const specsRes = await db.collection("specs").where({ productId: spec.productId }).get();
+      const existingSpecs = specsRes.data;
+      const specOptions = existingSpecs.map(s => ({ label: s.spec, isNew: false }));
+      specOptions.push({ label: t("quickAdd.newSpec"), isNew: true });
+
+      const specIdx = existingSpecs.findIndex(s => s._id === price.specId);
+      const catIdx = PLATFORM_CATEGORIES.findIndex(c => c.key === price.platformCategory);
+      const catKey = PLATFORM_CATEGORIES[catIdx >= 0 ? catIdx : 0].key;
+      const platformsList = PLATFORMS[catKey];
+      const pIdx = platformsList.indexOf(price.platform);
+
+      this.setData({
+        isQuickAdd: true,
+        isEdit: true,
+        priceId,
+        existingProductId: product._id,
+        existingSpecs,
+        specOptions,
+        brand: product.brand,
+        productName: product.productName,
+        categoryIndex: catIdx >= 0 ? catIdx : 0,
+        platforms: platformsList,
+        platformIndex: pIdx >= 0 ? pIdx : 0,
+        showCustomPlatform: pIdx < 0,
+        customPlatform: pIdx < 0 ? price.platform : "",
+        shopName: price.shopName,
+        price: String(price.price),
+        specSelectIndex: specIdx >= 0 ? specIdx : 0,
+      });
+      this.onSpecSelectChange({ detail: { value: specIdx >= 0 ? specIdx : 0 } });
+      this.calcPreview();
+      this.checkFormValid();
+    } catch (e) {
+      wx.showToast({ title: t("detail.loadFail"), icon: "none" });
+      wx.navigateBack();
     }
   },
   async loadProduct(productId) {
@@ -231,6 +285,7 @@ Page({
       spec, specUnitIndex, specUnits, specValue,
       pieceCount, pieceUnitIndex, pieceUnits,
       price, customPlatform, showCustomPlatform,
+      isEdit, priceId,
     } = this.data;
     if (!brand || !productName || !shopName || !spec || !specValue || !price) {
       wx.showToast({ title: t("add.formIncomplete"), icon: "none" });
@@ -295,39 +350,78 @@ Page({
         }
       }
 
-      // 查重
+      // 查重（编辑态排除自身）
       const dupRes = await db.collection("prices").where({
         specId,
         platform: platformName,
         shopName,
         price: nPrice,
       }).get();
-      if (dupRes.data.length > 0) {
+      const isDuplicate = isEdit
+        ? dupRes.data.some((d) => d._id !== priceId)
+        : dupRes.data.length > 0;
+      if (isDuplicate) {
         wx.showToast({ title: t("add.duplicateRecord"), icon: "none" });
         this.setData({ saving: false });
         return;
       }
 
-      // 写入 price
-      await db.collection("prices").add({
-        data: {
-          specId,
-          platformCategory: platformCategories[categoryIndex].key,
-          platform: platformName,
-          shopName,
-          price: nPrice,
-          unitPrice,
-          recordDate: db.serverDate(),
-          createTime: db.serverDate(),
-        },
-      });
+      const priceData = {
+        specId,
+        platformCategory: platformCategories[categoryIndex].key,
+        platform: platformName,
+        shopName,
+        price: nPrice,
+        unitPrice,
+        recordDate: db.serverDate(),
+      };
 
-      wx.showToast({ title: t("add.success") });
+      // 写入 price（编辑态更新，否则新增）
+      if (isEdit) {
+        await db.collection("prices").doc(priceId).update({ data: priceData });
+      } else {
+        await db.collection("prices").add({
+          data: { ...priceData, createTime: db.serverDate() },
+        });
+      }
+
+      wx.showToast({ title: isEdit ? t("add.updateSuccess") : t("add.success") });
       wx.navigateBack();
     } catch (e) {
       wx.showToast({ title: t("add.fail"), icon: "none" });
     } finally {
       this.setData({ saving: false });
+    }
+  },
+  onDeleteRecord() {
+    const { priceId } = this.data;
+    wx.showModal({
+      title: t("add.delete"),
+      content: t("add.deleteRecordConfirm"),
+      confirmText: t("add.delete"),
+      confirmColor: "#e53935",
+      success: (res) => {
+        if (res.confirm) this.deletePriceRecord(priceId);
+      },
+    });
+  },
+  async deletePriceRecord(priceId) {
+    const db = wx.cloud.database();
+    this.setData({ deleting: true });
+    try {
+      const priceRes = await db.collection("prices").doc(priceId).get();
+      const specId = priceRes.data.specId;
+      await db.collection("prices").doc(priceId).remove();
+      const remainRes = await db.collection("prices").where({ specId }).count();
+      if (remainRes.total === 0) {
+        await db.collection("specs").doc(specId).remove();
+      }
+      wx.showToast({ title: t("add.deleteSuccess") });
+      wx.navigateBack();
+    } catch (e) {
+      wx.showToast({ title: t("add.deleteFail"), icon: "none" });
+    } finally {
+      this.setData({ deleting: false });
     }
   },
 });

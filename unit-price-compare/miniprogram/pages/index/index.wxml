@@ -13,20 +13,11 @@
   </view>
 
   <view wx:else class="list">
-    <text class="hint">{{_t.index.hint}}</text>
-    <mp-slideview
-      class="card-slide"
-      wx:for="{{products}}"
-      wx:key="_id"
-      buttons="{{item.swipeBtns}}"
-      bindbuttontap="onDeleteProduct"
-    >
-      <view class="card" data-id="{{item._id}}" bindtap="goToDetail">
-        <view class="card-body">
-          <text class="card-brand">{{item.brand}}</text>
-          <text class="card-name">{{item.productName}}</text>
-        </view>
+    <view class="card" wx:for="{{products}}" wx:key="_id" data-id="{{item._id}}" bindtap="goToDetail">
+      <view class="card-body">
+        <text class="card-brand">{{item.brand}}</text>
+        <text class="card-name">{{item.productName}}</text>
       </view>
-    </mp-slideview>
+    </view>
   </view>
 </page-layout>

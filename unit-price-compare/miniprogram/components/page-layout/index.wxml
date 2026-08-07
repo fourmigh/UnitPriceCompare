@@ -3,6 +3,7 @@
     <slot />
   </view>
   <view class="bottom-bar">
-    <button class="bottom-btn" disabled="{{barDisabled}}" loading="{{barLoading}}" bindtap="onBarTap">{{barText}}</button>
+    <button wx:if="{{deleteVisible}}" class="bottom-btn delete-btn" disabled="{{deleteDisabled}}" loading="{{deleteLoading}}" bindtap="onDeleteTap">{{deleteText}}</button>
+    <button class="bottom-btn primary-btn" disabled="{{barDisabled}}" loading="{{barLoading}}" bindtap="onBarTap">{{barText}}</button>
   </view>
 </view>
